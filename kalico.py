@@ -11,7 +11,7 @@
 	Everything is try-except because of curses
 	----------------------
 	title: KaliCombinedUpdate
-	author: x1n1x
+	author: sk1tt1sh
 	Date Created: 02-10-2013
 """
 from curses import wrapper
