@@ -16,14 +16,10 @@
 """
 from curses import wrapper
 from libs import menus
-from time import sleep
 
 def startup():
 	if __name__ == '__main__':
 		wrapper(menus.menus)
 
-
-print "Started..."
 startup()
-print "should have seen something"
 exit()
