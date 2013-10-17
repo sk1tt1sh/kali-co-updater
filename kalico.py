@@ -14,28 +14,16 @@
 	author: x1n1x
 	Date Created: 02-10-2013
 """
-
-from libs import cursesctrl
+from curses import wrapper
 from libs import menus
 from time import sleep
 
-crs = cursesctrl.curseutil()
-
-
 def startup():
-	menus.display()
-	# Once we leave menu lets just exit for now. Menu will be where the magic happens
-	endprog()
-
-
-def endprog():
-	crs.message("Ended!...", 'red')
-	sleep(1)
-	cursesctrl.endcrs()
+	if __name__ == '__main__':
+		wrapper(menus.menus)
 
 
 print "Started..."
 startup()
 print "should have seen something"
-endprog()
 exit()

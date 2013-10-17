@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from subprocess import STDOUT, check_call
+#from subprocess import STDOUT, check_call
 #import subprocess
-import os
+import subprocess
 #maybe we should make whole new menus? fuk
-aptarg = '0'
+
 def startApt(aptarg):
 	if aptarg == '1':
 		arg = 'update'
@@ -22,20 +22,7 @@ def startApt(aptarg):
 		#cfgcurses.curseutil.msg("Please try again", 'red')
 		return
 
-
 def doApt(arg):
-	check_call(['apt-get', arg + ' --force-yes'])
-
-
-
-# Update applications
-
-
-
-
-# Dist upgrade
-
-
-
-
-# Fix apt?
+	proc = subprocess.Popen(['apt-get %s' % arg, '--force-yes'], stdout=subprocess.PIPE, shell=True)
+	(out, err) = proc.communicate()
+	print "program output:", out
