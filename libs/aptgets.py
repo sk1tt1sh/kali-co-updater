@@ -28,3 +28,4 @@ def doApt(arg):
 	proc = subprocess.Popen(['apt-get %s' % arg, '--force-yes'], stdout=subprocess.PIPE, shell=True)
 	(out, err) = proc.communicate()
 	print out
+	return
