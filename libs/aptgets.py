@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-#from subprocess import STDOUT, check_call
-#import subprocess
 import subprocess
 from os import system
-#maybe we should make whole new menus? fuk
-spinner = [ '\\', '|', '/' ]
+
+
 def startApt(aptarg):
 	system('reset')
 	if aptarg == '1':
@@ -21,7 +19,6 @@ def startApt(aptarg):
 		arg = 'dist-upgrade'
 		doApt(arg)
 	else:
-		#cfgcurses.curseutil.msg("Please try again", 'red')
 		return
 
 def doApt(arg):
