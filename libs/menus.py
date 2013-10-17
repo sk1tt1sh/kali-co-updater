@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import aptgets
-from os import system
+import ucparse
 import curses
 from curses import panel
 
@@ -14,7 +13,7 @@ none = ""
 class cursemenu(object):
 
 	def __init__(self, passedmenu, stdscreen):
-		self.window = stdscreen.subwin(0,0)
+		self.window = stdscreen.subwin(0, 0)
 		self.window.keypad(1)
 
 		curses.start_color()
@@ -34,16 +33,6 @@ class cursemenu(object):
 
 	def message(self, text, txcolor):
 		self.window.addstr(text, curses.color_pair(colors[txcolor]))
-
-	def aptupd(self):
-		self.window.def_prog_mode()
-		system('reset')
-		aptarg = 1
-		print "Doing apt-get!"
-		aptgets.startApt(aptarg)   # Change this to call external function
-		self.window.reset_prog_mode()   # reset to 'current' curses environment
-		self.window.curs_set(1)         # reset doesn't do this right
-		self.window.curs_set(0)
 
 	def navigate(self, nloc):
 		self.position += nloc
@@ -97,9 +86,15 @@ class menus(object):
 		self.screen = stdscreen
 		curses.curs_set(0)
 
-		curseaptupd = cursemenu(aptupd)
+		aptupdate = '1'
+		updateapt = ucparse.runupdate(aptupdate)
+
+		aptupgrade= '2'
+		upgradeapt= ucparse.runupdate(aptupgrade)
+
 		aptitude_items = [
-				("Update apt lists", self.aptupd)
+				("Update apt lists", updateapt.parsecmd),
+				("Upgrade apt apps", upgradeapt.parsecmd)
 				]
 		aptmenu = cursemenu(aptitude_items, self.screen)
 

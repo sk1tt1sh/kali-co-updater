@@ -3,9 +3,11 @@
 #from subprocess import STDOUT, check_call
 #import subprocess
 import subprocess
+from os import system
 #maybe we should make whole new menus? fuk
-
+spinner = [ '\\', '|', '/' ]
 def startApt(aptarg):
+	system('reset')
 	if aptarg == '1':
 		arg = 'update'
 		doApt(arg)
@@ -25,4 +27,4 @@ def startApt(aptarg):
 def doApt(arg):
 	proc = subprocess.Popen(['apt-get %s' % arg, '--force-yes'], stdout=subprocess.PIPE, shell=True)
 	(out, err) = proc.communicate()
-	print "program output:", out
+	print out
