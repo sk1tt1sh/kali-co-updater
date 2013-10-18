@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import subprocess
+#import subprocess
 from time import sleep
 from os import system
 
