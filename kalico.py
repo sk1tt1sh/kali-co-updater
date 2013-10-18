@@ -22,6 +22,10 @@ def startup():
 	if __name__ == '__main__':
 		wrapper(menus.menus)
 
+def selfUpdate():
+	pass
+
+selfupdate()
 startup()
 system('reset')
 exit()
