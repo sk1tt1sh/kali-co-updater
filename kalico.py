@@ -16,10 +16,12 @@
 """
 from curses import wrapper
 from libs import menus
+from os import system
 
 def startup():
 	if __name__ == '__main__':
 		wrapper(menus.menus)
 
 startup()
+system('reset')
 exit()
