@@ -20,9 +20,7 @@ def startApt(aptarg):
 		arg = 'dist-upgrade'
 		doApt(arg)
 	elif aptarg == 1234:
-		print "Want to background this? **Note that some processes will be blocked**"
-		print "NOT IMPLEMENTED"
-		return
+		doAllApt()
 	else:
 		return(1)
 
@@ -31,4 +29,10 @@ def doApt(arg):
 	(out, err) = proc.communicate()
 	print out
 	sleep(1)
+	return
+
+def doAllApt():
+	system('apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y')
+	print "Alllll done. Sleeping 10 sec for you to see what happened"
+	sleep(10)
 	return
