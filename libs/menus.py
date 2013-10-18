@@ -29,6 +29,7 @@ class cursemenu(object):
 
 		self.position = 0
 		self.items = passedmenu
+		self.listlen = len(self.items)
 		self.items.append(('exit', 'exit'))
 
 	def message(self, text, txcolor):
@@ -41,7 +42,15 @@ class cursemenu(object):
 		elif self.position >= len(self.items):
 				self.position = len(self.items)-1
 
+	def jumpnav(self, jloc):
+		self.position = jloc
+		if self.position < 0:
+			self.position = 0
+		elif self.position >= len(self.items):
+				self.position = len(self.items)-1
+
 	def display(self):
+		self.window.keypad(1)
 		self.panel.top()
 		self.panel.show()
 		self.window.clear()
@@ -64,7 +73,15 @@ class cursemenu(object):
 				if self.position == len(self.items)-1:
 					break
 				else:
+					self.panel.hide()
+					curses.def_prog_mode() # Save state
 					self.items[self.position][1]()
+					curses.reset_prog_mode() # reset to 'current' curses environment
+					curses.curs_set(1) # reset doesn't do this right
+					curses.curs_set(0)
+					self.panel.top()
+					self.panel.show()
+					self.window.clear()
 
 			elif key == curses.KEY_UP:
 				self.navigate(-1)
@@ -72,40 +89,59 @@ class cursemenu(object):
 			elif key == curses.KEY_DOWN:
 				self.navigate(1)
 
+			elif key != 258 and key != 259 and key in range(48, 58, 1):
+				self.jumpnav(key-48)
+
 		self.window.clear()
 		self.panel.hide()
 		panel.update_panels()
 		curses.doupdate()
 
 
-
-
 class menus(object):
 
 	def __init__(self, stdscreen):
 		self.screen = stdscreen
+		curses.noecho()
 		curses.curs_set(0)
 
-		aptupdate = '1'
-		updateapt = ucparse.runupdate(aptupdate)
-
-		aptupgrade= '2'
-		upgradeapt= ucparse.runupdate(aptupgrade)
+		updateapt = ucparse.runupdate(1)
+		upgradeapt = ucparse.runupdate(2)
+		upgradefapt = ucparse.runupdate(3)
+		distupgrade = ucparse.runupdate(4)
+		doallapt = ucparse.runupdate(1234)
+		gitpull = ucparse.runupdate(5)
+		gitclone = ucparse.runupdate(6)
 
 		aptitude_items = [
 				("Update apt lists", updateapt.parsecmd),
-				("Upgrade apt apps", upgradeapt.parsecmd)
+				("Upgrade apt apps", upgradeapt.parsecmd),
+				("Upgrade and fix dependancies (can take a while)", upgradefapt.parsecmd),
+				("Do dist-upgrade", distupgrade.parsecmd),
+				("Do them all! (Does not fix dependancies)", doallapt.parsecmd)
 				]
 		aptmenu = cursemenu(aptitude_items, self.screen)
 
 		gitmenu_items = [
-				("pull known git repos(Unimprement)", 'none')
+				("Pull known git repos", gitpull.parsecmd),
+				("Clone a git", gitclone.parsecmd),
+				("Enter git custom repo path (script assumes /opt/", 'none')
 				]
 		gitmenu = cursemenu(gitmenu_items, self.screen)
 
+		service_items = [
+				("List non-standard services. (Assumes Kali)", 'exit'),
+				("Enable service", 'exit'),
+				("Disable service", 'exit'),
+				("Auto start a service", 'exit'),
+				("Stop autostart of a service", 'exit')
+				]
+		servicemenu = cursemenu(service_items, self.screen)
+
 		main_menu_items = [
 				("Manage aptitude", aptmenu.display),
-				("Manage cloned gits", gitmenu.display)
+				("Manage cloned gits", gitmenu.display),
+				("Service control", servicemenu.display)
 				]
 		main_menu = cursemenu(main_menu_items, self.screen)
 
