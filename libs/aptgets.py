@@ -25,14 +25,13 @@ def startApt(aptarg):
 		return(1)
 
 def doApt(arg):
-	proc = subprocess.Popen(['apt-get %s' % arg, '--force-yes'], stdout=subprocess.PIPE, shell=True)
-	(out, err) = proc.communicate()
-	print out
-	sleep(1)
+	system('apt-get %s -y' % arg)
+	print "Chillin for a sec so you can review the exec..."
+	sleep(5)
 	return
 
 def doAllApt():
 	system('apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y')
 	print "Alllll done. Sleeping 10 sec for you to see what happened"
-	sleep(10)
+	sleep(5)
 	return
