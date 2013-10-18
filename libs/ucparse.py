@@ -12,7 +12,7 @@ class runupdate:
 
 	def parsecmd(self):
 		if self.args != 0:
-			if self.args <= 4:
+			if self.args <= 4 or self.args == 1234:
 				startApt(self.args)
 				return
 			elif self.args == 5:
